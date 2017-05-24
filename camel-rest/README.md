@@ -1,10 +1,21 @@
-# Karaf 2, Camel and REST / SQL QuickStart
+# Karaf 2, Camel and REST
 
-This example demonstrates how to use SQL via JDBC along with Camel's REST DSL to expose a RESTful API.
+This example demonstrates how to use Camel's REST DSL to expose a RESTful API.              
+
+Create the project for the quickstart
+
+```
+oc new-project <project_name> --description="<description>" --display-name="<display_name>"
+```
+
+eg:
+```
+oc new-project k2si-camel-rest --description="Karaf camel base s2i template" --display-name="Karaf s2i Camel Rest"
+```
 
 ### Configuring
 
-The `src/main/fabric8/deployment.yml` should be updated with a mysql username/password that can access your mysql system.
+The `src/main/fabric8/deployment.yml` could be updated with your custom configs.
 
 ### Building
 
@@ -57,8 +68,8 @@ First, import the Fuse image streams:
 
     oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/fis-image-streams.json
 
-Then create the quickstart template:
+Then create the quickstart template (included in this repo):
 
-    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/quickstarts/karaf2-camel-rest-sql-template.json
+    oc create -f <PATH_TO>/templates/karaf2-camel-base-template.json
 
 Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 

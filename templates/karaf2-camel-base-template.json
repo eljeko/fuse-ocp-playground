@@ -35,17 +35,11 @@
       "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
     },
     {
-      "name": "CONTEXT_DIR",
-      "displayName": "Git project subdirectory",
-      "value": "",      
-      "description": "The subdirectory of repo with target project"
-    },
-    {
       "name": "SERVICE_NAME",
       "displayName": "Service Name",
       "value": "s2i-karaf2-camel-rest",
       "description": "Exposed Service name."
-    },   
+    },
     {
       "name": "BUILDER_VERSION",
       "displayName": "Builder version",
@@ -53,16 +47,16 @@
       "description": "The version of the FIS S2I builder image to use."
     },
     {
-      "name": "APP_VERSION",
-      "displayName": "Application Version",
-      "value": "2.2.60-SNAPSHOT",
-      "description": "The application version."
-    },
-    {
       "name": "MAVEN_ARGS",
       "displayName": "Maven Arguments",
       "value": "install -DskipTests -Dfabric8.skip -e -B",
       "description": "Arguments passed to mvn in the build."
+    },
+    {
+      "name": "MAVEN_MIRROR_URL",
+      "displayName": "Maven mirror repository",
+      "value": "",
+      "description": "the url to your maven mirror eg: http://myrepo:8081/repos/content/groups/public/"
     },
     {
       "name": "MAVEN_ARGS_APPEND",
@@ -120,7 +114,6 @@
           "component": "${APP_NAME}",
           "provider": "s2i",
           "project": "${APP_NAME}",
-          "version": "${APP_VERSION}",
           "group": "quickstarts"
         },
         "name": "${SERVICE_NAME}-route"
@@ -143,7 +136,6 @@
           "component": "${APP_NAME}",
           "provider": "s2i",
           "project": "${APP_NAME}",
-          "version": "${APP_VERSION}",
           "group": "quickstarts"
         },
         "name": "${SERVICE_NAME}"
@@ -178,8 +170,7 @@
           "container": "karaf",
           "group": "quickstarts",
           "project": "${APP_NAME}",
-          "provider": "s2i",
-          "version": "${APP_VERSION}"
+          "provider": "s2i"
         }
       },
       "spec": {},
@@ -198,8 +189,7 @@
           "container": "karaf",
           "group": "quickstarts",
           "project": "${APP_NAME}",
-          "provider": "s2i",
-          "version": "${APP_VERSION}"
+          "provider": "s2i"
         }
       },
       "spec": {
@@ -251,6 +241,10 @@
                 "value": "${ARTIFACT_DIR}"
               },
               {
+                "name": "MAVEN_MIRROR_URL",
+                "value": "${MAVEN_MIRROR_URL}"
+              },
+              {
                 "name": "MAVEN_ARGS",
                 "value": "${MAVEN_ARGS}"
               },
@@ -284,8 +278,7 @@
           "container": "karaf",
           "group": "quickstarts",
           "project": "${APP_NAME}",
-          "provider": "s2i",
-          "version": "${APP_VERSION}"
+          "provider": "s2i"
         }
       },
       "spec": {
@@ -317,8 +310,7 @@
           "deploymentconfig": "${APP_NAME}",
           "group": "quickstarts",
           "project": "${APP_NAME}",
-          "provider": "s2i",
-          "version": "${APP_VERSION}"
+          "provider": "s2i"
         },
         "template": {
           "metadata": {
@@ -329,8 +321,7 @@
               "deploymentconfig": "${APP_NAME}",
               "group": "quickstarts",
               "project": "${APP_NAME}",
-              "provider": "s2i",
-              "version": "${APP_VERSION}"
+              "provider": "s2i"
             }
           },
           "spec": {
@@ -338,19 +329,19 @@
               {
                 "name": "${APP_NAME}",
                 "image": "library/${APP_NAME}:latest",
-                "readinessProbe" : {
-                  "httpGet" : {
-                    "path" : "/readiness-check",
-                    "port" : 8181
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/readiness-check",
+                    "port": 8181
                   },
-                  "initialDelaySeconds" : 10
+                  "initialDelaySeconds": 10
                 },
-                "livenessProbe" : {
-                  "httpGet" : {
-                    "path" : "/health-check",
-                    "port" : 8181
+                "livenessProbe": {
+                  "httpGet": {
+                    "path": "/health-check",
+                    "port": 8181
                   },
-                  "initialDelaySeconds" : 180
+                  "initialDelaySeconds": 180
                 },
                 "ports": [
                   {
@@ -362,26 +353,24 @@
                     "name": "jolokia"
                   }
                 ],
-                "env" : [ {
-                  "name" : "KUBERNETES_NAMESPACE",
-                  "valueFrom" : {
-                    "fieldRef" : {
-                      "fieldPath" : "metadata.namespace"
+                "env": [
+                  {
+                    "name": "KUBERNETES_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "fieldPath": "metadata.namespace"
+                      }
                     }
+                  },
+                  {
+                    "name": "MAVEN_MIRROR_URL",
+                    "value": "${MAVEN_MIRROR_URL}"
+                  },
+                  {
+                    "name": "DUMMY_PROP",
+                    "value": "${DUMMY_PROP}"
                   }
-                } , {
-                  "name": "MYSQL_SERVICE_NAME",
-                  "value": "${MYSQL_SERVICE_NAME}"
-                }, {
-                  "name": "MYSQL_SERVICE_DATABASE",
-                  "value": "${MYSQL_SERVICE_DATABASE}"
-                }, {
-                  "name": "MYSQL_SERVICE_USERNAME",
-                  "value": "${MYSQL_SERVICE_USERNAME}"
-                }, {
-                  "name": "MYSQL_SERVICE_PASSWORD",
-                  "value": "${MYSQL_SERVICE_PASSWORD}"
-                } ],
+                ],
                 "resources": {
                   "requests": {
                     "cpu": "${CPU_REQUEST}",

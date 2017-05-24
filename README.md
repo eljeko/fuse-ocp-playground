@@ -2,7 +2,14 @@
 
 ## Quickstarts
 
-###
+This is a collection of quickstarts for Openshift Container Platform.
+
+You need to create a project before starting.
+
+
+### camel-rest
+
+This is a simple karaf camel route that exposes a ReST endpoint.
 
 ## Templates
 
@@ -10,9 +17,17 @@ In the dir templates there are the base templates if you want to manage on opens
 
 just use:
 
+
 ```
-oc 
+oc create -f templates/karaf2-camel-base-template.json
 ```
+
+or update exsisting one:
+
+```
+oc replace -f templates/karaf2-camel-base-template.json
+```
+
 
 ### 
 
